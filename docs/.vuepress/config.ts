@@ -4,7 +4,7 @@ import theme from './theme'
 export default defineUserConfig({
   bundler: viteBundler(),
   theme,
-  base: '/he-miao-blog/'
+  base: '/he-miao-blog/',
   locales: {
     // '/': {
     //   lang: 'en-US',
