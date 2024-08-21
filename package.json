@@ -7,7 +7,7 @@
   "scripts": {
     "docs:build": "vuepress build docs --clean-cache",
     "clean-dev": "vuepress dev docs --clean-cache",
-    "dev": "vuepress dev docs",
+    "docs:dev": "vuepress dev docs --clean-cache",
     "update-package": "pnpm dlx vp-update"
   },
   "author": "he_miao",
