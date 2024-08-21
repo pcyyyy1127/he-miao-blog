@@ -1,1 +1,0 @@
-const t=JSON.parse('{"key":"v-781133a0","path":"/tags/tag-with-space/","title":"tag with space | \u6807\u7B7E","lang":"zh-CN","frontmatter":{"title":"tag with space | \u6807\u7B7E","layout":"Tags","blog":{"type":"category","name":"tag with space","key":"tag"}},"excerpt":"","headers":[],"git":{},"filePathRelative":null}');export{t as data};

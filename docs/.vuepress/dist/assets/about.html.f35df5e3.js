@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as o,b as _}from"./app.51a93867.js";const a={},c=_("p",null,"about",-1),s=[c];function n(r,l){return t(),o("div",null,s)}var d=e(a,[["render",n],["__file","about.html.vue"]]);export{d as default};
