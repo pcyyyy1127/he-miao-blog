@@ -1,46 +1,51 @@
-name: build-and-deploy
+name: docs
 
 on:
+  # 每当 push 到 main 分支时触发部署
   push:
-    branches: [ main ]  # main 分支有 commit 时自动触发该 workflow
+    branches: [main]
+  # 手动触发部署
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-    # 配置运行该 workflow 的系统
+  docs:
     runs-on: ubuntu-latest
 
-    env:
-      NODE_VERSION: '18'
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
           fetch-depth: 0
 
-      # 安装 pnpm
-      - name: Install pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6
+          # 选择要使用的 pnpm 版本
+          version: 9
+          # 使用 pnpm 安装依赖
+          run_install: true
 
-      # 配置 Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          # 选择要使用的 node 版本
+          node-version: 18
+          # 缓存 pnpm 依赖
           cache: pnpm
 
-      # 安装依赖
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      # 运行构建脚本
+      - name: Build VuePress site
+        run: pnpm docs:build
 
-      # 打包并生成静态文件
-      - name: Build site
-        run: pnpm run docs:build
-
-      # 推送静态文件到 gh-pages 分支
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      # 查看 workflow 的文档来获取更多信息
+      # @see https://github.com/crazy-max/ghaction-github-pages
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vuepress/dist  # 静态文件生成目录
+          # 部署到 gh-pages 分支
+          target_branch: gh-pages
+          # 部署目录为 VuePress 的默认输出目录
+          build_dir: docs/.vuepress/dist
+        env:
+          # @see https://docs.github.com/cn/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
